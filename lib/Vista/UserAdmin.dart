@@ -17,22 +17,18 @@ class UserAdminApp extends State<UserAdmin> {
   TextEditingController pass = TextEditingController();
   TextEditingController fecha = TextEditingController();
   UserObject usuario=UserObject();
+  final key = encrypt.Key.fromUtf8('PKwJSEhYLB88Lc8PEEPmKXdP6u3n9F5J');
+  final iv = IV.fromLength(16);
 
   final firebase = FirebaseFirestore.instance;
-  inserDatatUser() async {
-    //guardando en objeto user
-    usuario.nombre=nombre.text;
-    usuario.correo=correo.text;
-    usuario.fechaNacimiento=fecha.text;
-    usuario.rol='invitado';
-    usuario.estado=true;
-    print('1****');
+  inserDatatUser(String passEncripted) async {
+   print('1****');
     try {
       // almacenando en BBDD
       await firebase.collection("Users").doc().set({
         "NombreUsuario": nombre.text,
         "CorreoUsuario": correo.text,
-        "Pass": pass.text,
+        "Pass": passEncripted,
         "Fecha": fecha.text,
         "Estado": true,
         "Rol": "invitado"
@@ -134,16 +130,17 @@ class UserAdminApp extends State<UserAdmin> {
                     backgroundColor: Colors.black45, minimumSize: Size(400, 50)),
                 onPressed: ()  {
                     print('Ingreso resgitro datos');
-                  final key = encrypt.Key.fromSecureRandom(32);
-                  final iv = IV.fromSecureRandom(16);
+
                   final encrypter = Encrypter(AES(key));
                   final encrypted = encrypter.encrypt(pass.text, iv: iv);
                   // print(decrypted);
-                  print(key);
-                  print('Password----->' + encrypted.bytes.toString());
-                  print(encrypted.base16);
+                 // print(key);
+                 print('Password----->' + encrypted.bytes.toString());
+                //  print(encrypted.base16);
+                    print(key.bytes);
                   print(encrypted.base64);
-                  inserDatatUser( );
+                 // print(encrypter);
+                  inserDatatUser(encrypted.base64);
                 },
                 child: Text(
                   'Ingresar datos',

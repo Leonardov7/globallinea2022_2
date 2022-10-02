@@ -34,19 +34,21 @@ class LoginApp extends State<Login> {
         print('***----2');
         for (var cursor in usuario.docs) {
           //  print('**4444');
-          final key = encrypt.Key.fromSecureRandom(32);
-          final iv = IV.fromSecureRandom(16);
+         // final key = encrypt.Key.fromSecureRandom(32);
+          final key = encrypt.Key.fromUtf8('PKwJSEhYLB88Lc8PEEPmKXdP6u3n9F5J');
+         // final iv = IV.fromSecureRandom(16);
+          final iv = IV.fromLength(16);
           final encrypter = Encrypter(AES(key));
           final encrypted = encrypter.encrypt(pass.text, iv: iv);
           // print(decrypted);
-          print(key);
-          print('Password----->' + encrypted.bytes.toString());
-          print(encrypted.base16);
-          print(encrypted.base64);
+          print(key.bytes);
+         print('Password----->' + encrypted.bytes.toString());
+         // print(encrypted.base16);
+         print(encrypted.base64);
           if (correo.text == cursor.get('CorreoUsuario')) {
             print('***----3');
 
-            if (pass.text == cursor.get('Pass')) {
+            if (encrypted.base64 == cursor.get('Pass')) {
               //idUser= cursor.id.toString();
               // flag = true;
               UserObject userOb=UserObject();
@@ -109,6 +111,7 @@ class LoginApp extends State<Login> {
               padding: EdgeInsets.all(10),
               child: TextField(
                 controller: pass,
+                obscureText: true,
                 style: TextStyle(color: Colors.blueGrey),
                 decoration: InputDecoration(
                   fillColor: Colors.grey,
@@ -140,8 +143,7 @@ class LoginApp extends State<Login> {
               padding: EdgeInsets.all(10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(50, 50),
-                  primary: Colors.black45,
+                  minimumSize: Size(50, 50), backgroundColor: Colors.black45,
                 ),
                 onPressed: () async {
                   print("dentro 111");
@@ -223,10 +225,10 @@ class LoginApp extends State<Login> {
             actions: <Widget>[
               FloatingActionButton(
                 onPressed: () {
-                  //Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
                 child:
-                Text("Aceptar", style: TextStyle(color: Colors.blueGrey)),
+                Text("ok", style: TextStyle(color: Colors.white)),
               )
             ],
           );
