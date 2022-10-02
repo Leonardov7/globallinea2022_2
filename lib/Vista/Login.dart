@@ -4,13 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:globallinea2022_2/Roles/MenuAdmin.dart';
+import 'package:globallinea2022_2/Roles/MenuUser.dart';
 import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
 import '../DTO/UserObject.dart';
 import 'Geo.dart';
-
 
 class Login extends StatefulWidget {
   @override
@@ -34,30 +35,29 @@ class LoginApp extends State<Login> {
         print('***----2');
         for (var cursor in usuario.docs) {
           //  print('**4444');
-         // final key = encrypt.Key.fromSecureRandom(32);
+          // final key = encrypt.Key.fromSecureRandom(32);
           final key = encrypt.Key.fromUtf8('PKwJSEhYLB88Lc8PEEPmKXdP6u3n9F5J');
-         // final iv = IV.fromSecureRandom(16);
+          // final iv = IV.fromSecureRandom(16);
           final iv = IV.fromLength(16);
           final encrypter = Encrypter(AES(key));
           final encrypted = encrypter.encrypt(pass.text, iv: iv);
           // print(decrypted);
           print(key.bytes);
-         print('Password----->' + encrypted.bytes.toString());
-         // print(encrypted.base16);
-         print(encrypted.base64);
+          print('Password----->' + encrypted.bytes.toString());
+          // print(encrypted.base16);
+          print(encrypted.base64);
           if (correo.text == cursor.get('CorreoUsuario')) {
             print('***----3');
 
             if (encrypted.base64 == cursor.get('Pass')) {
               //idUser= cursor.id.toString();
               // flag = true;
-              UserObject userOb=UserObject();
-              userOb.nombre=cursor.get('NombreUsuario');
-              userOb.correo=cursor.get('CorreoUsuario');
-              userOb.rol=cursor.get('Rol');
-              mensaje('Mensaje', 'dato encontrado');
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => Geo(userOb)));
+              UserObject userOb = UserObject();
+              userOb.nombre = cursor.get('NombreUsuario');
+              userOb.correo = cursor.get('CorreoUsuario');
+              userOb.rol = cursor.get('Rol');
+              mensaje('Mensaje', 'dato encontrado', userOb);
+
               print(cursor.id);
             }
           }
@@ -143,14 +143,15 @@ class LoginApp extends State<Login> {
               padding: EdgeInsets.all(10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(50, 50), backgroundColor: Colors.black45,
+                  minimumSize: Size(50, 50),
+                  backgroundColor: Colors.black45,
                 ),
                 onPressed: () async {
                   print("dentro 111");
                   bool isSuccess = await biometrico();
-                  print('Correcto --'+isSuccess.toString());
+                  print('Correcto --' + isSuccess.toString());
 
-                  if (isSuccess){
+                  if (isSuccess) {
                     print('Correcto');
                   }
 
@@ -189,9 +190,8 @@ class LoginApp extends State<Login> {
     // bool isBiometricSupported = await auth.();
     bool isBiometricSupported = await auth.isDeviceSupported();
 
-
     List<BiometricType> availableBiometrics =
-    await auth.getAvailableBiometrics();
+        await auth.getAvailableBiometrics();
     print(canCheckBiometrics); //Returns trueB
     // print("support -->" + isBiometricSupported.toString());
     print(availableBiometrics.toString()); //Returns [BiometricType.fingerprint]
@@ -215,7 +215,7 @@ class LoginApp extends State<Login> {
     return authenticated;
   }
 
-  void mensaje(String titulo, String mess) {
+  void mensaje(String titulo, String mess,UserObject userObj) {
     showDialog(
         context: context,
         builder: (buildcontext) {
@@ -226,9 +226,17 @@ class LoginApp extends State<Login> {
               FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).pop();
+                  if (userObj.rol == 'admin') {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => MenuAdmin(userObj)));
+                  } else if (userObj.rol == 'guest') {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => MenuUser(userObj)));
+                  }
+                  pass.clear();
+                  correo.clear();
                 },
-                child:
-                Text("ok", style: TextStyle(color: Colors.white)),
+                child: Text("ok", style: TextStyle(color: Colors.white)),
               )
             ],
           );

@@ -39,10 +39,10 @@ class HomeStart extends State<Home> {
             children: [
               Padding(
                 padding:
-                EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 0),
+                EdgeInsets.only(left: 10, top: 60, right: 10, bottom: 10),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: Colors.black45, minimumSize: Size(400, 50)),
+                      backgroundColor: Colors.black45, minimumSize: Size(400, 70)),
                   onPressed: () {
                     print('Ingreso Login');
                     Navigator.push(
@@ -50,7 +50,7 @@ class HomeStart extends State<Home> {
                   },
                   child: Text(
                     'Ingresar',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ),
               ),
@@ -59,7 +59,7 @@ class HomeStart extends State<Home> {
                 EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: Colors.black45, minimumSize: Size(400, 50)),
+                      backgroundColor: Colors.black45, minimumSize: Size(400, 70)),
                   onPressed: () {
                     print('Ingreso registro');
                     Navigator.push(
@@ -67,11 +67,11 @@ class HomeStart extends State<Home> {
                   },
                   child: Text(
                     'Registrar',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ),
               ),
-              Padding(
+           /*   Padding(
                 padding:
                 EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 0),
                 child: ElevatedButton(
@@ -87,7 +87,7 @@ class HomeStart extends State<Home> {
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),

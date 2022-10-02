@@ -31,10 +31,11 @@ class UserAdminApp extends State<UserAdmin> {
         "Pass": passEncripted,
         "Fecha": fecha.text,
         "Estado": true,
-        "Rol": "invitado"
+        "Rol": "guest"
       });
       print("CORRECTO*****************");
-      //mensaje("Ingreso", "Usuario registrado correctamente");
+
+      mensaje("Ingreso", "Usuario registrado correctamente");
     } catch (e) {
       print('ERROR--> ' + e.toString());
     }
@@ -179,6 +180,28 @@ class UserAdminApp extends State<UserAdmin> {
         initialEntryMode: DatePickerEntryMode.input,
         builder: (context, child) {
           return Theme(data: ThemeData.dark(), child: Center(child: child));
+        });
+  }
+  void mensaje(String titulo, String mess) {
+    showDialog(
+        context: context,
+        builder: (buildcontext) {
+          return AlertDialog(
+            title: Text(titulo),
+            content: Text(mess),
+            actions: <Widget>[
+              FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  pass.clear();
+                  fecha.clear();
+                  nombre.clear();
+                  correo.clear();
+                },
+                child: Text("ok", style: TextStyle(color: Colors.white)),
+              )
+            ],
+          );
         });
   }
 }
