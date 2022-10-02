@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "28299451913",
+    "project_id": "proyectogenerallinea",
+    "storage_bucket": "proyectogenerallinea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28299451913:android:bd7b2ad3579e424abe22d8",
+        "android_client_info": {
+          "package_name": "co.edu.ucundinamarca.globallinea2022_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28299451913-24kdbfgfbporjubgir4vvq032i2q4hjj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc13qZhQOByntErBQxxV2BZTBhi6oxuOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28299451913-24kdbfgfbporjubgir4vvq032i2q4hjj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "28299451913-87c6ssvs3ckdcdindflkcmjfrgs1nafh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.edu.ucundinamarca.proyectobaselinea20222"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
