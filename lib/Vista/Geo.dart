@@ -11,19 +11,19 @@ class Geo extends StatefulWidget {
 
 class GeoApp extends State<Geo> {
   late Position position;
-  TextEditingController local =TextEditingController();
+  TextEditingController local = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Geolocalización '+widget.userOb1.nombre + ' Rol--> '+widget.userOb1.rol ),
+        title: Text('Geolocalización ' +
+            widget.userOb1.nombre +
+            ' Rol--> ' +
+            widget.userOb1.rol),
         backgroundColor: Colors.lightGreen,
         actions: [
           IconButton(
-            onPressed: () async {
-              local.text = (await _determinePosition()).toString();
-              print(local.text);
-            },
+            onPressed: () async {},
             icon: const Icon(Icons.add),
             // child: const Icon(Icons.add),
           )
@@ -36,7 +36,17 @@ class GeoApp extends State<Geo> {
               Padding(
                 padding: EdgeInsets.all(10),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    local.text = (await _determinePosition()).toString();
+                    List<String> coordenadas=local.text.split(',');
+                    List<String> _coordenadasLat=coordenadas[0].split(': ');
+                    List<String> _coordenadasLon=coordenadas[1].split(': ');
+
+                    double latitud=double.parse(_coordenadasLat[1]);
+                    double longitud=double.parse(_coordenadasLon[1]);
+                    print('latitud-----'+ latitud.toString()+ ' longitud----'+longitud.toString());
+                    print(local.text);
+                  },
                   child: Text('Posición'),
                 ),
               ),
@@ -61,6 +71,7 @@ class GeoApp extends State<Geo> {
       ),
     );
   }
+
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;

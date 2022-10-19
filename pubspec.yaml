@@ -37,6 +37,7 @@ dependencies:
   geolocator: ^8.2.0
     # gold_local_auth:
   encrypt:
+  http:
 
 
   # The following adds the Cupertino Icons font to your application.

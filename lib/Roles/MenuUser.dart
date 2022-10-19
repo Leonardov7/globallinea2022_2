@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:globallinea2022_2/Vista/Prediction.dart';
 
 import '../DTO/UserObject.dart';
+import '../REST.dart';
+import '../Vista/Geo.dart';
 
 class MenuUser extends StatefulWidget {
   final UserObject userOb1;
@@ -24,7 +27,10 @@ class MenuUserApp extends State<MenuUser> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple, minimumSize: Size(400, 50)),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => Geo(widget.userOb1)));
+                },
                 child: Text(
                   'Localización',
                   style: TextStyle(color: Colors.white, fontSize: 20),
@@ -36,7 +42,8 @@ class MenuUserApp extends State<MenuUser> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple, minimumSize: Size(400, 50)),
-                onPressed: () {},
+                onPressed: () {Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => Prediction()));},
                 child: Text(
                   'Predicción del clima',
                   style: TextStyle(color: Colors.white, fontSize: 20),
