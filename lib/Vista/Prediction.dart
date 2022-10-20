@@ -15,21 +15,25 @@ class PredictionApp extends State<Prediction> {
   TextEditingController temperatura = TextEditingController();
   TextEditingController altitud = TextEditingController();
   TextEditingController humedad = TextEditingController();
-  String location = '37.4219983,-122.084';
+  //String location = '0,-0';
+ // String localizacion='';
+  String _location='';
   var dataHttp = '';
 
-  consumirGet() async {
-    //print (widget.location);
+  consumirGet(Position location) async {
+    print (location);
     try {
-      String localizacion = await _determinePosition().toString();
+      //String localizacion =   _determinePosition().toString();
 
-      List<String> coordenadas = localizacion.split(',');
-     //List<String> _coordenadasLat = coordenadas[0].split(': ');
-      //List<String> _coordenadasLon = coordenadas[1].split(': ');
+      List<String> coordenadas =  location.toString().split(',');
+      print('1 '+  coordenadas.toString());
+      //print(coordenadas[1]);
+      List<String> _coordenadasLat = coordenadas[0].split(': ');
+      List<String> _coordenadasLon = coordenadas[1].split(': ');
 
-      //double latitud = double.parse(_coordenadasLat[1]);
-      //double longitud = double.parse(_coordenadasLon[1]);
-     // location = (latitud.toString() + ',' + longitud.toString());
+     double latitud = double.parse(_coordenadasLat[1]);
+      double longitud = double.parse(_coordenadasLon[1]);
+    _location = (latitud.toString() + ',' + longitud.toString());
      // print('latitud-----' + latitud.toString() + ' longitud----' + longitud.toString());
     }
     catch(e){print('ERROR Locali------'+e.toString());}
@@ -38,15 +42,24 @@ class PredictionApp extends State<Prediction> {
       Response response =
           //await get(Uri.parse('https://jsonplaceholder.typicode.com/users/' + id));
           //http://api.weatherunlocked.com/api/current/4.917,%20-74.1?app_id=02546387&app_key=3ba0a43c2bc6266199961c600f7e5fa8
-          await get(Uri.parse('http://api.weatherunlocked.com/api/current/'+location+'?app_id=02546387&app_key=3ba0a43c2bc6266199961c600f7e5fa8'));
+       await get(Uri.parse('http://api.weatherunlocked.com/api/forecast/'+_location+'?app_id=02546387&app_key=3ba0a43c2bc6266199961c600f7e5fa8'));
+          //await get(Uri.parse('http://api.weatherunlocked.com/api/current/'+_location+'?app_id=02546387&app_key=3ba0a43c2bc6266199961c600f7e5fa8'));
       Map data = jsonDecode(response.body);
       //print('NAME: ${data['name']} /// username: ${data['username']}');
       // print(data);
       print(response.statusCode.toString() + " Código de respuesta");
       if (response.statusCode.toString() == '200') {
-        temperatura.text = '${data['temperature_c']} C°';
+        temperatura.text = '${data['temp_c']} C°';
         altitud.text = '${data['alt_m']} mts';
         humedad.text = '${data['humid_pct']} %';
+        print('6 ${data['Days'][0]['date']}');
+       // print('7 ${data['Days'][0]['sunrise_time']}');
+       // print('8 ${data['Days'][0]}');
+        print('9 ${data['Days'][0]['Timeframes']}');
+        print('10 ${data['Days'][0]['Timeframes'][2]['time']}');
+        print('Probabilidad Precipitación  --> ${data['Days'][0]['Timeframes'][0]['prob_precip_pct']}');
+
+
 
         // correo.text='${data['email']}';
         // username.text='${data['username']}';
@@ -75,7 +88,11 @@ class PredictionApp extends State<Prediction> {
                     minimumSize: Size(500, 50), backgroundColor: Colors.black45,
                   ),
                   onPressed: () async {
-                    await consumirGet();
+                    print(await _determinePosition());
+                    Position localizacion=   await _determinePosition();
+                   //print(await localizacion+' 2');
+                    await consumirGet(localizacion);
+
                   },
                   child: Text('Predicción climática'),
                 ),
